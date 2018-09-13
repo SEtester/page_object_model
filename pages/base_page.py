@@ -1,6 +1,7 @@
 # encoding:utf8
 
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 
 class BasePage():
@@ -20,7 +21,16 @@ class BasePage():
         if url != None:
             self.driver.get(url)
 
+    def by_css(self, css):
+        locator = (By.CSS_SELECTOR, css)
+        return self.driver.find_element(*locator)
+
+    def by_xpath(self, css):
+        locator = (By.CSS_SELECTOR, css)
+        return self.driver.find_element(*locator)
+
 
 if __name__ == '__main__':
     dr = webdriver.Chrome()
-    BasePage(dr, '/SEtester')
+    b = BasePage(dr, '/SEtester')
+    b.by_css('.repo.js-repo').click()

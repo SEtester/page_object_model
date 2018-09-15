@@ -52,5 +52,6 @@ if __name__ == '__main__':
     # import logging
     # logging.basicConfig(level=logging.DEBUG)
     dr = webdriver.Chrome()
-    b = BasePage(dr, '/view/login.shtml')
+    b = BasePage(dr, 'SEtester')
     b.by_css('.repo.js-repo').click()
+

@@ -8,7 +8,8 @@ from selenium.webdriver.support import expected_conditions as EC
 class BasePage():
 
     def __init__(self, driver, path=None):
-        self.url = 'https://github.com'
+        # self.url = 'https://github.com'
+        self.url = 'http://test-www.tianhangbox.net/'
         self.driver = driver
         self.driver.maximize_window()
         self.load_page(path)
@@ -24,13 +25,14 @@ class BasePage():
         if url != None:
             self.driver.get(url)
 
-    def by_css(self, css):
-        locator = (By.CSS_SELECTOR, css)
-        self.wait_element_visibility_of_element_located(locator)
-        return self.driver.find_element(*locator)
+    # def by_css(self, css):
+    #     locator = (By.CSS_SELECTOR, css)
+    #     self.wait_element_visibility_of_element_located(locator)
+    #     return self.driver.find_element(*locator)
 
-    def by_xpath(self, xpath):
+    def by_xpath(self, xpath,text=None):
         locator = (By.CSS_SELECTOR, xpath)
+        self.wait(locator,text)
         return self.driver.find_element(*locator)
 
     def wait_element_visibility_of_element_located(self, locator):
@@ -44,6 +46,19 @@ class BasePage():
     def wait_text_to_be_present_in_element_value(self, locator, text):
         WebDriverWait(self.driver, self.timeout, self.poll_frequency).until(
             EC.text_to_be_present_in_element_value(locator, text))
+
+    def by_css(self,css,text=None):
+        locator = (By.CSS_SELECTOR, css)
+        self.wait_element_visibility_of_element_located(locator)
+        self.wait(locator,text)
+        return self.driver.find_element(*locator)
+
+    def wait(self,locator,text=None):
+        if text == None:
+            self.wait_element_visibility_of_element_located(locator)
+        else:
+            self.wait_text_to_be_present_in_element(locator,text)
+
 
 
 if __name__ == '__main__':

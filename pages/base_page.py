@@ -8,8 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 class BasePage():
 
     def __init__(self, driver, path=None):
-        # self.url = 'https://github.com'
-        self.url = 'http://test-www.tianhangbox.net/'
+        self.url = 'https://github.com'
         self.driver = driver
         self.driver.maximize_window()
         self.load_page(path)

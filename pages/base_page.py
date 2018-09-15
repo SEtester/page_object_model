@@ -26,27 +26,31 @@ class BasePage():
 
     def by_css(self, css):
         locator = (By.CSS_SELECTOR, css)
-        self.wait_element_visibility_of_element_located(*locator)
+        self.wait_element_visibility_of_element_located(locator)
         return self.driver.find_element(*locator)
 
-    def by_xpath(self, css):
-        locator = (By.CSS_SELECTOR, css)
+    def by_xpath(self, xpath):
+        locator = (By.CSS_SELECTOR, xpath)
         return self.driver.find_element(*locator)
 
-    def wait_element_visibility_of_element_located(self, *locator):
-        WebDriverWait(self.driver, self.timeout, self.poll_frequency).until(EC.visibility_of_element_located(locator))
+    def wait_element_visibility_of_element_located(self, locator):
+        WebDriverWait(self.driver, self.timeout, self.poll_frequency).until(
+            EC.visibility_of_element_located(locator))
 
-    def wait_text_to_be_present_in_element(self,*locator,text):
-        WebDriverWait(self.driver, self.timeout, self.poll_frequency).until(EC.text_to_be_present_in_element(locator,text))
+    def wait_text_to_be_present_in_element(self, locator, text):
+        WebDriverWait(self.driver, self.timeout, self.poll_frequency).until(
+            EC.text_to_be_present_in_element(locator, text))
 
-    def wait_text_to_be_present_in_element_value(self,*locator,text):
-        WebDriverWait(self.driver, self.timeout, self.poll_frequency).until(EC.text_to_be_present_in_element_value(locator,text))
+    def wait_text_to_be_present_in_element_value(self, locator, text):
+        WebDriverWait(self.driver, self.timeout, self.poll_frequency).until(
+            EC.text_to_be_present_in_element_value(locator, text))
 
 
 if __name__ == '__main__':
     from selenium import webdriver
+
     # import logging
     # logging.basicConfig(level=logging.DEBUG)
     dr = webdriver.Chrome()
-    b = BasePage(dr, '/SEtester')
+    b = BasePage(dr, '/view/login.shtml')
     b.by_css('.repo.js-repo').click()

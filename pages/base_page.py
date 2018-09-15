@@ -68,4 +68,4 @@ if __name__ == '__main__':
     dr = webdriver.Chrome()
     b = BasePage(dr, 'SEtester')
     b.by_css('.repo.js-repo').click()
-    print('测试提交记录3')
+    print('测试提交记录4')

@@ -8,7 +8,8 @@ from pprint import pprint
 class BasePage():
 
     def __init__(self, driver, path=None):
-        self.url = 'https://github.com'
+        # self.url = 'https://github.com'
+        self.url = 'https://mail.163.com/'
         self.driver = driver
         self.driver.maximize_window()
         self.load_page(path)
@@ -58,7 +59,15 @@ class BasePage():
         else:
             self.wait_text_to_be_present_in_element(locator,text)
 
-
+    def switch_to_frame(self,css=None,xpath=None):
+        if css != None and xpath == None:
+            locator = (By.CSS_SELECTOR, css)
+        elif xpath != None and css == None :
+            locator = (By.CSS_SELECTOR, xpath)
+        else:
+            raise ValueError('参数错误，请传css定位或者xpath,需要指定用什么方式传')
+        WebDriverWait(self.driver, self.timeout, self.poll_frequency).until(
+            EC.frame_to_be_available_and_switch_to_it(locator))
 
 if __name__ == '__main__':
     from selenium import webdriver
@@ -66,6 +75,7 @@ if __name__ == '__main__':
     # import logging
     # logging.basicConfig(level=logging.DEBUG)
     dr = webdriver.Chrome()
-    b = BasePage(dr, 'SEtester')
-    b.by_css('.repo.js-repo').click()
-    print('测试更改github账号')
+    b = BasePage(dr, '/')
+    b.switch_to_frame('#x-URS-iframe')
+    b.by_css('.j-inputtext.dlemail').send_keys('123456')
+    # print('测试更改github账号')

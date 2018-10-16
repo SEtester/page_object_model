@@ -19,7 +19,7 @@ class BasePage():
     def load_page(self, path=None):
         if path != None and isinstance(path, str):
             url = self.url + path
-            print(url)
+            # print(url)
         else:
             url = None
         if url != None:
@@ -49,7 +49,7 @@ class BasePage():
 
     def by_css(self,css,text=None):
         locator = (By.CSS_SELECTOR, css)
-        self.wait_element_visibility_of_element_located(locator)
+        # self.wait_element_visibility_of_element_located(locator)
         self.wait(locator,text)
         return self.driver.find_element(*locator)
 
@@ -84,15 +84,22 @@ class BasePage():
             EC.frame_to_be_available_and_switch_to_it(locator))
 
 
+
 if __name__ == '__main__':
     from selenium import webdriver
 
     # import logging
     # logging.basicConfig(level=logging.DEBUG)
     dr = webdriver.Chrome()
-    b = BasePage(dr, '/')
-
-    # b.switch_to_frame(css='#x-URS-iframe')
-    b.switch_to_frame(xpath='//*[@id="x-URS-iframe"]')
-    b.by_css('.j-inputtext.dlemail').send_keys('123456')
-    # print('测试更改github账号')
+    print(dr.name)
+    # b = BasePage(dr, '/')
+    #
+    #
+    # # b.switch_to_frame(css='#x-URS-iframe')
+    # b.switch_to_frame(xpath='//*[@id="x-URS-iframe"]')
+    # b.by_css('.j-inputtext.dlemail').send_keys('123456')
+    # # b.switch_to_frame(choose_iframe='default')
+    # b.switch_to_frame(choose_iframe='parent')
+    # text = b.by_css('.headerNav a').text
+    # print(text)
+    # # print('测试更改github账号')

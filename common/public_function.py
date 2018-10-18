@@ -4,7 +4,8 @@ from selenium.common.exceptions import TimeoutException
 import time
 
 
-def verify_msg_time(self, method, sleep_frequency, timeout , message=''):
+def verify_msg_time(method, sleep_frequency, timeout, message=''):
+    '''用来判断验证码间隔时间'''
     # count_time = 0
     now_time = time.time()
     end_time = time.time() + timeout
@@ -17,7 +18,7 @@ def verify_msg_time(self, method, sleep_frequency, timeout , message=''):
             if now_time < end_time:
                 continue
             else:
-                raise TimeoutException(msg)
+                raise TimeoutException(message)
         else:
-            print(self.send_msg_button().is_enabled())
+            print(method)
             break

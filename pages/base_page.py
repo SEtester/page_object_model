@@ -60,15 +60,7 @@ class BasePage():
         else:
             self.wait_text_to_be_present_in_element(locator,text)
 
-    # def switch_to_frame(self,css=None,xpath=None):
-    #     if css != None and xpath == None:
-    #         locator = (By.CSS_SELECTOR, css)
-    #     elif xpath != None and css == None :
-    #         locator = (By.CSS_SELECTOR, xpath)
-    #     else:
-    #         raise ValueError('参数错误，请传css定位或者xpath,需要指定用什么方式传')
-    #     WebDriverWait(self.driver, self.timeout, self.poll_frequency).until(
-    #         EC.frame_to_be_available_and_switch_to_it(locator))
+
 
     def switch_to_frame(self,choose_iframe=None,css=None,xpath=None):
         if choose_iframe == 'default':

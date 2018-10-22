@@ -77,15 +77,14 @@ class BasePage():
             EC.frame_to_be_available_and_switch_to_it(locator))
 
     def select_by(self,element,by,value):
-        select_element = element
         if by == 'index':
-            s = Select(select_element).select_by_index(value)
+            s = Select(element).select_by_index(int(value))
         elif by == 'value':
-            s = Select(select_element).select_by_value(value)
+            s = Select(element).select_by_value(value)
         elif by == 'text':
-            s = Select(select_element).select_by_visible_text(value)
+            s = Select(element).select_by_visible_text(value)
         else:
-            raise ValueError()
+            raise ValueError("Not found %s , You can enter 'index', 'value', 'text'." % by)
         return s
 
 
@@ -93,27 +92,19 @@ class BasePage():
 
 if __name__ == '__main__':
     from selenium import webdriver
-
     # import logging
     # logging.basicConfig(level=logging.DEBUG)
     dr = webdriver.Chrome()
     print(dr.name)
     b = BasePage(dr, '/')
-    b.by_css('#u1 a:nth-child(8)').click()
-    b.by_css('.setpref').click()
-    s = b.by_css('#nr')
-    b.select_by(s,'text','每页显示50条')
+
+
+    # b.by_css('#u1 a:nth-child(8)').click()
+    # b.by_css('.setpref').click()
+    # s = b.by_css('#nr')
+    # b.select_by(s,'index','1')
 
 
 
 
 
-
-    # # b.switch_to_frame(css='#x-URS-iframe')
-    # b.switch_to_frame(xpath='//*[@id="x-URS-iframe"]')
-    # b.by_css('.j-inputtext.dlemail').send_keys('123456')
-    # # b.switch_to_frame(choose_iframe='default')
-    # b.switch_to_frame(choose_iframe='parent')
-    # text = b.by_css('.headerNav a').text
-    # print(text)
-    # # print('测试更改github账号')

@@ -99,10 +99,10 @@ if __name__ == '__main__':
     b = BasePage(dr, '/')
 
 
-    # b.by_css('#u1 a:nth-child(8)').click()
-    # b.by_css('.setpref').click()
-    # s = b.by_css('#nr')
-    # b.select_by(s,'index','1')
+    b.by_css('#u1 a:nth-child(8)').click()
+    b.by_css('.setpref').click()
+    s = b.by_css('#nr')
+    b.select_by(s,'index','1')
 
 
 

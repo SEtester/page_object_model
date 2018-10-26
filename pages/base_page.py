@@ -87,8 +87,19 @@ class BasePage():
             raise ValueError("Not found %s , You can enter 'index', 'value', 'text'." % by)
         return s
 
+    def switch_to_alert(self):
+        alert = WebDriverWait(self.driver,self.timeout,self.poll_frequency).until(EC.alert_is_present())
+        return alert
 
+    def alert_text(self):
+        text = self.switch_to_alert().text
+        return text
 
+    def alert_accept(self):
+        return self.switch_to_alert().accept()
+
+    def alert_dismiss(self):
+        return self.switch_to_alert().dismiss()
 
 if __name__ == '__main__':
     from selenium import webdriver
@@ -98,13 +109,13 @@ if __name__ == '__main__':
     print(dr.name)
     b = BasePage(dr, '/')
 
-
     b.by_css('#u1 a:nth-child(8)').click()
     b.by_css('.setpref').click()
     s = b.by_css('#nr')
     b.select_by(s,'index','1')
-
-
+    b.by_css('#gxszButton a:nth-child(1)').click()
+    print(b.alert_text())
+    b.alert_accept()
 
 
 

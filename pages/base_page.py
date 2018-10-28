@@ -88,18 +88,18 @@ class BasePage():
         return s
 
     def switch_to_alert(self):
-        alert = WebDriverWait(self.driver,self.timeout,self.poll_frequency).until(EC.alert_is_present())
-        return alert
+        self.alert = WebDriverWait(self.driver,self.timeout,self.poll_frequency).until(EC.alert_is_present())
 
     def alert_text(self):
-        text = self.switch_to_alert().text
-        return text
+        return self.alert.text
 
     def alert_accept(self):
-        return self.switch_to_alert().accept()
+        return self.alert.accept()
 
     def alert_dismiss(self):
-        return self.switch_to_alert().dismiss()
+        return self.alert.dismiss()
+
+
 
 if __name__ == '__main__':
     from selenium import webdriver
@@ -114,6 +114,7 @@ if __name__ == '__main__':
     s = b.by_css('#nr')
     b.select_by(s,'index','1')
     b.by_css('#gxszButton a:nth-child(1)').click()
+    b.switch_to_alert()
     print(b.alert_text())
     b.alert_accept()
 

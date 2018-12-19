@@ -1,17 +1,49 @@
 # encoding:utf8
-
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait,Select
+from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
-# from pprint import pprint
-# from selenium.webdriver.support.select import Select
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import *
+import time
+import os
+import sys
+import platform
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SCREENSHOT_PNG_DIR = BASE_DIR + '/screenshot_png'
+PAGES_DIR = BASE_DIR + '/pages'
+
+ALL_DIR = [BASE_DIR, \
+           SCREENSHOT_PNG_DIR, \
+           PAGES_DIR]
+sys.path.extend(ALL_DIR)
+# print(sys.path)
+from pages.driver_obj import Driver
+
+USAGE = '''
+USAGE:
+python 
+python base_page.py https://www.tapd.cn
+or
+python base_page.py chrome https://www.tapd.cn
+'''
+
+# if 'Windows-10' in platform.platform() and len(sys.argv) == 1:
+if len(sys.argv) == 1:
+    URL = 'https://www.tapd.cn'
+elif len(sys.argv) == 2 and 'http' in sys.argv[-1]:
+    URL = sys.argv[-1]
+elif len(sys.argv) == 3 and 'http' in sys.argv[-1]:
+    BROWSER_NAME, URL = sys.argv[-2], sys.argv[-1]
+    print(BROWSER_NAME)
+else:
+    print(USAGE)
+    exit()
 
 
 class BasePage():
 
     def __init__(self, driver, path=None):
-        # self.url = 'https://github.com'
-        self.url = 'https://www.baidu.com'
+        self.url = URL
         # self.driver = webdriver.Chrome()
         self.driver = driver
         self.driver.maximize_window()
@@ -76,7 +108,7 @@ class BasePage():
         WebDriverWait(self.driver, self.timeout, self.poll_frequency).until(
             EC.frame_to_be_available_and_switch_to_it(locator))
 
-    def select_by(self,element,by,value):
+    def select_by(self, element, by, value):
         if by == 'index':
             s = Select(element).select_by_index(int(value))
         elif by == 'value':
@@ -88,7 +120,7 @@ class BasePage():
         return s
 
     def switch_to_alert(self):
-        self.alert = WebDriverWait(self.driver,self.timeout,self.poll_frequency).until(EC.alert_is_present())
+        self.alert = WebDriverWait(self.driver, self.timeout, self.poll_frequency).until(EC.alert_is_present())
 
     def alert_text(self):
         return self.alert.text
@@ -100,23 +132,6 @@ class BasePage():
         return self.alert.dismiss()
 
 
-
 if __name__ == '__main__':
-    from selenium import webdriver
-    # import logging
-    # logging.basicConfig(level=logging.DEBUG)
-    dr = webdriver.Chrome()
-    print(dr.name)
-    b = BasePage(dr, '/')
-
-    b.by_css('#u1 a:nth-child(8)').click()
-    b.by_css('.setpref').click()
-    s = b.by_css('#nr')
-    b.select_by(s,'index','1')
-    b.by_css('#gxszButton a:nth-child(1)').click()
-    b.switch_to_alert()
-    print(b.alert_text())
-    b.alert_accept()
-
-
-
+    dr = Driver().driver(browser_name=BROWSER_NAME)
+    b = BasePage(dr, path='/cloud_logins/login')

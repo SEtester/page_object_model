@@ -2,22 +2,20 @@
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import *
-import time
 import os
 import sys
 import platform
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SCREENSHOT_PNG_DIR = BASE_DIR + '/screenshot_png'
-PAGES_DIR = BASE_DIR + '/pages'
-
-ALL_DIR = [BASE_DIR, \
-           SCREENSHOT_PNG_DIR, \
-           PAGES_DIR]
-sys.path.extend(ALL_DIR)
-# print(sys.path)
-from pages.driver_obj import Driver
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# SCREENSHOT_PNG_DIR = BASE_DIR + '/screenshot_png'
+# PAGES_DIR = BASE_DIR + '/pages'
+#
+# ALL_DIR = [BASE_DIR, \
+#            SCREENSHOT_PNG_DIR, \
+#            PAGES_DIR]
+# sys.path.extend(ALL_DIR)
+# # print(sys.path)
+# from pages.driver_obj import Driver
 
 USAGE = '''
 USAGE:
@@ -30,11 +28,12 @@ python base_page.py chrome https://www.tapd.cn
 # if 'Windows-10' in platform.platform() and len(sys.argv) == 1:
 if len(sys.argv) == 1:
     URL = 'https://www.tapd.cn'
+    BROWSER_NAME = 'Chrome'
 elif len(sys.argv) == 2 and 'http' in sys.argv[-1]:
     URL = sys.argv[-1]
 elif len(sys.argv) == 3 and 'http' in sys.argv[-1]:
     BROWSER_NAME, URL = sys.argv[-2], sys.argv[-1]
-    print(BROWSER_NAME)
+    print('base_page:',BROWSER_NAME)
 else:
     print(USAGE)
     exit()
@@ -52,12 +51,14 @@ class BasePage():
         self.poll_frequency = 0.2
 
     def load_page(self, path=None):
-        if path != None and isinstance(path, str):
+        if path == None:
+            self.url = None
+        elif isinstance(path, str) and path[0] == '/':
             url = self.url + path
-            # print(url)
+            print(url)
         else:
-            url = None
-        if url != None:
+            raise TypeError('path must be a string ,path must be a uri')
+        if path != None:
             self.driver.get(url)
 
     # def by_css(self, css):
